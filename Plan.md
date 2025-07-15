@@ -85,11 +85,11 @@ Prompt for Cursor AI: "Using Functional React JavaScript, create a new Next.js p
 
 **Step 2: Build Landing Page**  
 TODO: Create a modern, animated landing page with hero section, features, CTA (sign-up button). Use black/white scheme, specified fonts.  
-Prompt for Cursor AI: "In the Next.js project, build a functional React landing page component in /app/page.tsx. Use Shadcn/ui for layout (e.g., Hero section with Card), Framer Motion for fade-in animations on load and button hovers. Apply black (#000) text on white (#FFF) background, Inter font for body, Space Grotesk for headings. Features: Explain problem (repetitive chats), solution (AI agent), CTA to /signup. Keep it simple, readable, mobile-first. Add console logs for animation debugging. If UX flow is vague, ask me. Output TODOs for auth integration next."
+Prompt for Cursor AI: "In the Next.js project, build a functional React landing page component in /app/page.tsx. Use Shadcn/ui for layout (e.g., Hero section with Card), Framer Motion for fade-in animations on load and button hovers. Apply, Inter font for body, Space Grotesk for headings. Features: Explain problem (repetitive chats), solution (AI agent), CTA to /signup. Keep it simple, readable, mobile-first. Add console logs for animation debugging. If UX flow is vague, ask me. Output TODOs for auth integration next."
 
 **Step 3: User Authentication Pages**  
 TODO: Add sign-up/login pages with forms, integrating Supabase Auth.  
-Prompt for Cursor AI: "Add functional React pages for sign-up and login in Next.js /app/signup.tsx and /app/login.tsx. Use Shadcn/ui Form and Input components, Framer Motion for form field animations. Black/white scheme, Inter/Space Grotesk fonts. Integrate Supabase Auth for email/password (install supabase/js). Handle errors with console logs. Redirect to /dashboard on success. Simple and readable code. If auth variables unclear, debug with console or ask. Output TODOs for dashboard."
+Prompt for Cursor AI: "Add functional React pages for sign-up and login in Next.js /app/signup.tsx and /app/login.tsx. Use Shadcn/ui Form and Input components, Framer Motion for form field animations.  Integrate Supabase Auth for email/password (install supabase/js). Handle errors with console logs. Redirect to /dashboard on success. Simple and readable code. If auth variables unclear, debug with console or ask. Output TODOs for dashboard."
 
 **Step 4: Dashboard UI**  
 TODO: Build a protected dashboard for API key input, chat upload, and response previews.  
