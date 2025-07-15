@@ -89,11 +89,11 @@ Prompt for Cursor AI: "In the Next.js project, build a functional React landing 
 
 **Step 3: User Authentication Pages**  
 TODO: Add sign-up/login pages with forms, integrating Supabase Auth.  
-Prompt for Cursor AI: "Add functional React pages for sign-up and login in Next.js /app/signup.tsx and /app/login.tsx. Use Shadcn/ui Form and Input components, Framer Motion for form field animations.  Integrate Supabase Auth for email/password (install supabase/js). Handle errors with console logs. Redirect to /dashboard on success. Simple and readable code. If auth variables unclear, debug with console or ask. Output TODOs for dashboard."
+Prompt for Cursor AI: "Add functional React pages for sign-up and login in Next.js /app/signup.tsx and /app/login.tsx. Use Shadcn/ui Form and Input components, Framer Motion for form field animations. Integrate Supabase Auth for email/password (install supabase/js). Handle errors with console logs. Redirect to /dashboard on success. Simple and readable code. If auth variables unclear, debug with console or ask. Output TODOs for dashboard."
 
 **Step 4: Dashboard UI**  
 TODO: Build a protected dashboard for API key input, chat upload, and response previews.  
-Prompt for Cursor AI: "Create a functional React dashboard page in /app/dashboard.tsx (protected route). Use Shadcn/ui Tabs, Table, and Button for sections: API Integration (form for Tokopedia/Shopee keys), Chat History Upload (file input), AI Previews (table of sample responses). Framer Motion for card animations. Black/white scheme, specified fonts. Fetch dummy data via console logs for now. Keep strategic and simple. If data variables unclear, ask or console debug. Output TODOs for backend connection."
+Prompt for Cursor AI: "Create a functional React dashboard page in /app/dashboard.tsx (protected route). Use Shadcn/ui Tabs, Table, and Button for sections: API Integration (form for Tokopedia/Shopee keys), Chat History Upload (file input), AI Previews (table of sample responses). Framer Motion for card animations. specified fonts. Fetch dummy data via console logs for now. Keep strategic and simple. If data variables unclear, ask or console debug. Output TODOs for backend connection."
 
 #### Phase 2: Backend Setup (Node.js + Express + Supabase)
 
