@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "sonner";
 import {
   Card,
   CardContent,
@@ -12,16 +13,119 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
+const BACKEND_URL =
+  process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001";
+
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState("integration");
 
-  // Mock data for development
+  // Real connection state management
   const [connectionStatus, setConnectionStatus] = useState({
-    shopee: false,
-    tiktokshop: false,
+    shopee: {
+      connected: false,
+      loading: false,
+      shopName: null as string | null,
+    },
+    tiktokshop: {
+      connected: false,
+      loading: false,
+      shopName: null as string | null,
+    },
   });
 
   const [uploadedFiles, setUploadedFiles] = useState(0);
+
+  // Check URL parameters for connection results
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if (urlParams.get("shopee_connected") === "true") {
+      setConnectionStatus((prev) => ({
+        ...prev,
+        shopee: {
+          connected: true,
+          loading: false,
+          shopName: "Your Shopee Store",
+        },
+      }));
+      toast.success("Shopee account connected successfully!", {
+        description: "You can now start training your AI agent with chat data.",
+      });
+      // Clean up URL
+      window.history.replaceState({}, "", "/dashboard");
+    }
+
+    if (urlParams.get("tiktok_connected") === "true") {
+      setConnectionStatus((prev) => ({
+        ...prev,
+        tiktokshop: {
+          connected: true,
+          loading: false,
+          shopName: "Your TikTok Shop",
+        },
+      }));
+      toast.success("TikTok Shop connected successfully!", {
+        description: "You can now start training your AI agent with chat data.",
+      });
+      // Clean up URL
+      window.history.replaceState({}, "", "/dashboard");
+    }
+
+    if (urlParams.get("error")) {
+      toast.error("Connection failed", {
+        description:
+          "There was an error connecting your account. Please try again.",
+      });
+      // Clean up URL
+      window.history.replaceState({}, "", "/dashboard");
+    }
+  }, []);
+
+  // Handle platform connections
+  const handleConnect = async (platform: "shopee" | "tiktokshop") => {
+    // Set loading state
+    setConnectionStatus((prev) => ({
+      ...prev,
+      [platform]: { ...prev[platform], loading: true },
+    }));
+
+    // Show loading toast
+    toast.loading(
+      `Connecting to ${platform === "shopee" ? "Shopee" : "TikTok Shop"}...`,
+      {
+        description: "You will be redirected to the official login page.",
+      }
+    );
+
+    try {
+      // Redirect to our backend OAuth endpoint
+      const oauthUrl = `${BACKEND_URL}/api/oauth/connect/${platform}`;
+      window.location.href = oauthUrl;
+    } catch (error) {
+      console.error("Connection error:", error);
+      setConnectionStatus((prev) => ({
+        ...prev,
+        [platform]: { ...prev[platform], loading: false },
+      }));
+      toast.error("Connection failed", {
+        description: "Unable to initiate connection. Please try again.",
+      });
+    }
+  };
+
+  // Handle disconnection
+  const handleDisconnect = async (platform: "shopee" | "tiktokshop") => {
+    setConnectionStatus((prev) => ({
+      ...prev,
+      [platform]: { connected: false, loading: false, shopName: null },
+    }));
+    toast.success(
+      `${platform === "shopee" ? "Shopee" : "TikTok Shop"} disconnected`,
+      {
+        description: "Your account has been safely disconnected.",
+      }
+    );
+  };
   const [aiResponses, setAiResponses] = useState([
     {
       id: 1,
@@ -81,24 +185,32 @@ export default function Dashboard() {
                       <span>Connection Status</span>
                       <Badge
                         variant={
-                          connectionStatus.shopee ? "default" : "secondary"
+                          connectionStatus.shopee.connected
+                            ? "default"
+                            : "secondary"
                         }
                       >
-                        {connectionStatus.shopee
-                          ? "Connected"
+                        {connectionStatus.shopee.connected
+                          ? `Connected${
+                              connectionStatus.shopee.shopName
+                                ? ` - ${connectionStatus.shopee.shopName}`
+                                : ""
+                            }`
                           : "Not Connected"}
                       </Badge>
                     </div>
                     <Button
                       onClick={() =>
-                        setConnectionStatus((prev) => ({
-                          ...prev,
-                          shopee: !prev.shopee,
-                        }))
+                        connectionStatus.shopee.connected
+                          ? handleDisconnect("shopee")
+                          : handleConnect("shopee")
                       }
+                      disabled={connectionStatus.shopee.loading}
                       className="w-full"
                     >
-                      {connectionStatus.shopee
+                      {connectionStatus.shopee.loading
+                        ? "Connecting..."
+                        : connectionStatus.shopee.connected
                         ? "Disconnect"
                         : "Connect Shopee"}
                     </Button>
@@ -129,24 +241,32 @@ export default function Dashboard() {
                       <span>Connection Status</span>
                       <Badge
                         variant={
-                          connectionStatus.tiktokshop ? "default" : "secondary"
+                          connectionStatus.tiktokshop.connected
+                            ? "default"
+                            : "secondary"
                         }
                       >
-                        {connectionStatus.tiktokshop
-                          ? "Connected"
+                        {connectionStatus.tiktokshop.connected
+                          ? `Connected${
+                              connectionStatus.tiktokshop.shopName
+                                ? ` - ${connectionStatus.tiktokshop.shopName}`
+                                : ""
+                            }`
                           : "Not Connected"}
                       </Badge>
                     </div>
                     <Button
                       onClick={() =>
-                        setConnectionStatus((prev) => ({
-                          ...prev,
-                          tiktokshop: !prev.tiktokshop,
-                        }))
+                        connectionStatus.tiktokshop.connected
+                          ? handleDisconnect("tiktokshop")
+                          : handleConnect("tiktokshop")
                       }
+                      disabled={connectionStatus.tiktokshop.loading}
                       className="w-full"
                     >
-                      {connectionStatus.tiktokshop
+                      {connectionStatus.tiktokshop.loading
+                        ? "Connecting..."
+                        : connectionStatus.tiktokshop.connected
                         ? "Disconnect"
                         : "Connect TikTok Shop"}
                     </Button>

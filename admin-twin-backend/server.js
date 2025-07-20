@@ -10,6 +10,7 @@ const authRoutes = require("./routes/auth");
 const integrationRoutes = require("./routes/integrations");
 const trainRoutes = require("./routes/train");
 const generateRoutes = require("./routes/generate");
+const oauthRoutes = require("./routes/oauth"); // <-- Import the new route
 
 // Import middleware
 const errorHandler = require("./middleware/errorHandler");
@@ -65,6 +66,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/integrations", integrationRoutes);
 app.use("/api/train", trainRoutes);
 app.use("/api/generate", generateRoutes);
+app.use("/api/oauth", oauthRoutes); // <-- Use the new route
 
 // 404 handler
 app.use("*", (req, res) => {

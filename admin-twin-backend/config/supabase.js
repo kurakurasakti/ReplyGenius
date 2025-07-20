@@ -57,18 +57,20 @@ if (process.env.SUPABASE_SERVICE_ROLE_KEY) {
 // Test connection
 const testConnection = async () => {
   try {
-    const { data, error } = await supabase
-      .from("_health_check")
-      .select("*")
-      .limit(1);
-    if (error && error.code !== "PGRST116") {
-      // PGRST116 = table not found (expected)
+    // Simple connection test - just check if we can reach Supabase
+    // We'll use a simple auth check which doesn't require any tables
+    const { data, error } = await supabase.auth.getSession();
+
+    if (error) {
       console.error("❌ Supabase connection failed:", error.message);
+      return false;
     } else {
       console.log("✅ Supabase connection successful");
+      return true;
     }
   } catch (error) {
     console.error("❌ Supabase connection test failed:", error.message);
+    return false;
   }
 };
 
